@@ -1,0 +1,77 @@
+[
+  {
+    "id": "services_overview",
+    "content": "Janashakthi Insurance PLC offers four policy amendment services: Name Change, Age Alteration, Change of Premium Payment Mode, and Increase of Benefits. Name Change and Age Alteration are Non-Financial services processed automatically. Change of Payment Mode and Increase of Benefits are Financial services reviewed by an underwriter.",
+    "metadata": {"category": "services", "topic": "overview"}
+  },
+  {
+    "id": "name_change_docs",
+    "content": "For a Name Change request, the customer must submit a Customer Request Letter and one identity document: either a National Identity Card (NIC), Birth Certificate, or Marriage Certificate. The request is automatically approved once documents are AI-verified.",
+    "metadata": {"category": "services", "topic": "name_change"}
+  },
+  {
+    "id": "age_alteration_docs",
+    "content": "For an Age Alteration request, the customer must submit a Customer Request Letter and one identity document: either a National Identity Card (NIC), Birth Certificate, or Marriage Certificate. The date of birth is automatically updated in the database once documents are verified.",
+    "metadata": {"category": "services", "topic": "age_alteration"}
+  },
+  {
+    "id": "payment_mode_docs",
+    "content": "For a Change of Premium Payment Mode request, the customer must submit a Customer Request Letter and an Outstanding Payment Bill. This is a Financial service and will be reviewed by an underwriter before approval. Payment modes available are Monthly, Quarterly, Semi-Annual, and Annual.",
+    "metadata": {"category": "services", "topic": "premium_mode_change"}
+  },
+  {
+    "id": "increase_benefits_docs",
+    "content": "For an Increase of Benefits request, the customer must submit a Customer Request Letter and a PEP/DGF Form. Optional supporting documents include a Salary Slip, Bank Statement, Income Tax Certificate, or Annual Audit Report. This is a Financial service reviewed by an underwriter.",
+    "metadata": {"category": "services", "topic": "increase_benefits"}
+  },
+  {
+    "id": "non_financial_processing",
+    "content": "Non-Financial endorsements (Name Change and Age Alteration) are automatically processed by the system upon successful AI document verification. The customer database is updated immediately and the request status is set to Auto-Approved. No underwriter action is required.",
+    "metadata": {"category": "processing", "topic": "non_financial"}
+  },
+  {
+    "id": "financial_processing",
+    "content": "Financial endorsements (Change of Payment Mode and Increase of Benefits) are routed to the underwriter portal after submission. The request status is set to Under Review. An underwriter will review the documents and issue an Approve or Reject decision. Policy records are updated only upon underwriter approval.",
+    "metadata": {"category": "processing", "topic": "financial"}
+  },
+  {
+    "id": "otp_verification",
+    "content": "Janashakthi uses two-factor identity verification. The customer enters their NIC number and a one-time password (OTP) is sent to their registered email address. The OTP is valid for 5 minutes. If the OTP expires, the customer can request a new one using the Resend Code option.",
+    "metadata": {"category": "security", "topic": "otp"}
+  },
+  {
+    "id": "contact_details",
+    "content": "Janashakthi Insurance PLC contact details: Hotline: +94 11 4 555 000. Email: care@janashakthi.com. Website: www.janashakthi.com. Head Office Address: No. 46/12, Nawam Mawatha, Colombo 02, Sri Lanka.",
+    "metadata": {"category": "contact", "topic": "contact_details"}
+  },
+  {
+    "id": "document_tips",
+    "content": "When uploading documents, ensure the image is clear and well-lit. Documents should be photographed flat without shadows or folds. Accepted file formats are PDF, JPG, JPEG, and PNG. Maximum file size is 16MB. Both NICs and Birth Certificates are accepted as identity documents.",
+    "metadata": {"category": "documents", "topic": "upload_tips"}
+  },
+  {
+    "id": "policy_info",
+    "content": "Each Janashakthi policy has a policy number, plan type, branch, premium mode, sum assured, and active status. Customers can hold multiple policies. Policy details are displayed after identity verification. The customer must select the correct policy before submitting a service request.",
+    "metadata": {"category": "policy", "topic": "policy_info"}
+  },
+  {
+    "id": "request_letter_guide",
+    "content": "The Customer Request Letter should clearly state the customer's full name, NIC number, policy number, the service being requested, and the reason for the request. The letter can be written in Sinhala, Tamil, or English. Handwritten and typed letters are both accepted.",
+    "metadata": {"category": "documents", "topic": "request_letter"}
+  },
+  {
+    "id": "processing_time",
+    "content": "Non-Financial requests (Name Change, Age Alteration) are processed automatically and instantly upon document verification. Financial requests (Change of Payment Mode, Increase of Benefits) are reviewed by an underwriter and typically processed within 2 to 3 working days.",
+    "metadata": {"category": "processing", "topic": "processing_time"}
+  },
+  {
+    "id": "janashakthi_general",
+    "content": "Janashakthi Insurance PLC is a leading insurance company in Sri Lanka. The company offers life insurance and general insurance products to customers across the island. The company is regulated by the Insurance Regulatory Commission of Sri Lanka (IRCSL).",
+    "metadata": {"category": "company", "topic": "general"}
+  },
+  {
+    "id": "marriage_certificate_use",
+    "content": "A Marriage Certificate can be submitted as an identity document for Name Change requests, particularly when the customer is changing their name following marriage. It serves as proof of the legal name change along with the Customer Request Letter.",
+    "metadata": {"category": "documents", "topic": "marriage_certificate"}
+  }
+]

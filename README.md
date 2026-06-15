@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # 🛡️ Janashakthi Agent — AI-Powered Policy Endorsement Ecosystem
 
 > An AI-centric autonomous policy servicing web application for **Janashakthi Insurance PLC**, built as part of the Independent Study in Data Science (DSC3263) at the University of Peradeniya.
@@ -31,11 +32,20 @@ The **Janashakthi Agent** digitises and automates the end-to-end lifecycle of li
 ---
 
 ## 🗂️ Project Structure
+=======
+# Janashakthi Insurance — AI-Powered Service Portal
+
+## Project Structure
+>>>>>>> 151d5fd (first commit)
 
 ```
 janashakthi/
 │
+<<<<<<< HEAD
 ├── run.py                          # Entry point: python run.py
+=======
+├── run.py                          # ← Entry point: python run.py
+>>>>>>> 151d5fd (first commit)
 ├── requirements.txt
 │
 ├── config/
@@ -54,11 +64,19 @@ janashakthi/
 │   │   ├── __init__.py
 │   │   ├── ai_service.py           # Gemini: document verification + chat
 │   │   ├── customer_service.py     # Customer lookup by NIC / policy number
+<<<<<<< HEAD
 │   │   └── request_service.py      # Create, submit, auto-approve, route requests
 │   │
 │   ├── routes/
 │   │   ├── __init__.py
 │   │   ├── views.py                # Gemini: document verification + chat
+=======
+│   │   └── request_service.py      # Create, submit, approve/reject requests
+│   │
+│   ├── routes/
+│   │   ├── __init__.py
+│   │   ├── views.py                # Serves HTML pages + uploads
+>>>>>>> 151d5fd (first commit)
 │   │   ├── customer.py             # /api/identify, /api/chat, /api/request/*
 │   │   ├── documents.py            # /api/document/upload
 │   │   └── underwriter.py          # /api/underwriter/*
@@ -71,10 +89,17 @@ janashakthi/
 │   ├── customer.html               # Customer chatbot portal
 │   └── underwriter.html            # Underwriter dashboard
 │
+<<<<<<< HEAD
 ├── static/                 
 │   ├── css/                        # (for future separated CSS)
 |   ├── js/                         # (for future separated JS)
 │   └── images/            
+=======
+├── static/
+│   ├── css/                        # (for future separated CSS)
+│   ├── js/                         # (for future separated JS)
+│   └── images/
+>>>>>>> 151d5fd (first commit)
 │
 ├── database/
 │   └── janashakthi.db              # SQLite DB (auto-created on first run)
@@ -84,20 +109,30 @@ janashakthi/
 
 ---
 
+<<<<<<< HEAD
 ## ⚡ Quick Start
 
 ### 1. Install dependencies
 
+=======
+## Quick Start
+
+### 1. Install dependencies
+>>>>>>> 151d5fd (first commit)
 ```bash
 pip install -r requirements.txt
 ```
 
 ### 2. Run the server
+<<<<<<< HEAD
 
+=======
+>>>>>>> 151d5fd (first commit)
 ```bash
 python run.py
 ```
 
+<<<<<<< HEAD
 ### 3. Access the portals
 
 | Portal | URL |
@@ -108,28 +143,56 @@ python run.py
 ---
 
 ## 🔌 API Reference
+=======
+### 3. Access portals
+| Portal | URL |
+|--------|-----|
+| Customer Chatbot | http://localhost:5000 |
+| Underwriter Dashboard | http://localhost:5000/underwriter |
+
+---
+
+## API Reference
+>>>>>>> 151d5fd (first commit)
 
 ### Customer Endpoints (`/api/`)
 
 | Method | Endpoint | Description |
+<<<<<<< HEAD
 |---|---|---|
 | POST | `/api/identify` | Identify customer by NIC and/or policy number |
 | POST | `/api/chat` | AI chat with customer (Gemini) |
 | POST | `/api/request/create` | Create a new service request |
 | POST | `/api/document/upload` | Upload and AI-verify a document |
 | POST | `/api/request/submit` | Submit request for processing |
+=======
+|--------|----------|-------------|
+| POST | `/api/identify` | Identify customer by NIC and/or policy number |
+| POST | `/api/chat` | AI chat with customer (Gemini) |
+| POST | `/api/request/create` | Create a new service request |
+| POST | `/api/document/upload` | Upload & AI-verify a document |
+| POST | `/api/request/submit` | Submit request for underwriter review |
+>>>>>>> 151d5fd (first commit)
 
 ### Underwriter Endpoints (`/api/underwriter/`)
 
 | Method | Endpoint | Description |
+<<<<<<< HEAD
 |---|---|---|
 | GET | `/api/underwriter/requests?status=Under Review` | List requests by status |
 | GET | `/api/underwriter/request/<id>` | Full request + document details |
 | POST | `/api/underwriter/decide` | Approve or reject a request + update database |
+=======
+|--------|----------|-------------|
+| GET | `/api/underwriter/requests?status=Under Review` | List requests by status |
+| GET | `/api/underwriter/request/<id>` | Full request + document details |
+| POST | `/api/underwriter/decide` | Approve or reject + update database |
+>>>>>>> 151d5fd (first commit)
 | GET | `/api/underwriter/stats` | Dashboard statistics |
 
 ---
 
+<<<<<<< HEAD
 ## 📋 Services & Document Requirements
 
 | Service | Category | Post-Submission | Required Documents |
@@ -145,6 +208,23 @@ python run.py
 
 | NIC | Full Name | Policies |
 |---|---|---|
+=======
+## Services & Document Requirements
+
+| Service | Category | Mandatory | Identity (choose 1) | Optional |
+|---------|----------|-----------|---------------------|---------|
+| Name Change | Non-Financial | Request Letter | Birth Cert / NIC / Marriage Cert | — |
+| Age Alteration | Non-Financial | Request Letter | Birth Cert / NIC / Marriage Cert | — |
+| Change Payment Mode | Financial | Request Letter, Outstanding Bill | — | — |
+| Increase of Benefits | Financial | Request Letter, PEP/DGF Form | — | Salary Slip, Bank Statement, Tax Cert, Audit Report |
+
+---
+
+## Test Accounts (pre-seeded)
+
+| NIC | Full Name | Policy Numbers |
+|-----|-----------|----------------|
+>>>>>>> 151d5fd (first commit)
 | 881324008V | B.A.N.M. Balasooriya | LI42511344, LI44001241 |
 | 971742534V | P.A.K.D. Fonseka | LI421775 |
 | 756234521V | M.D. Samarawickrama | LI42514876, LI44101242 |
@@ -155,8 +235,11 @@ python run.py
 | 930123456V | A.B.C. Fernando | LI43601238 |
 | 801234567V | D.M. Wickramasinghe | LI43701239 |
 | 951234567V | N.P. Liyanage | LI43801240 |
+<<<<<<< HEAD
 
 > ⚠️ All names, NIC numbers, and contact details are fictitious and used solely for functional testing.
 
 ---
 
+=======
+>>>>>>> 151d5fd (first commit)
