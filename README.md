@@ -40,7 +40,7 @@ janashakthi/
 │
 ├── config/
 │   ├── __init__.py
-│   └── settings.py                 # Flask config, API keys, paths
+│   └── settings.py                 # Flask config (dev/prod), API keys, paths
 │
 ├── app/
 │   ├── __init__.py                 # App factory (create_app)
@@ -52,13 +52,13 @@ janashakthi/
 │   │
 │   ├── services/
 │   │   ├── __init__.py
-│   │   ├── ai_service.py           # OCR, document verification, RAG chat
+│   │   ├── ai_service.py           # Gemini: document verification + chat
 │   │   ├── customer_service.py     # Customer lookup by NIC / policy number
 │   │   └── request_service.py      # Create, submit, auto-approve, route requests
 │   │
 │   ├── routes/
 │   │   ├── __init__.py
-│   │   ├── views.py                # Serves HTML pages
+│   │   ├── views.py                # Gemini: document verification + chat
 │   │   ├── customer.py             # /api/identify, /api/chat, /api/request/*
 │   │   ├── documents.py            # /api/document/upload
 │   │   └── underwriter.py          # /api/underwriter/*
@@ -71,7 +71,10 @@ janashakthi/
 │   ├── customer.html               # Customer chatbot portal
 │   └── underwriter.html            # Underwriter dashboard
 │
-├── knowledge_base/                 # 15 ChromaDB entries for RAG retrieval
+├── static/                 
+│   ├── css/                        # (for future separated CSS)
+|   ├── js/                         # (for future separated JS)
+│   └── images/            
 │
 ├── database/
 │   └── janashakthi.db              # SQLite DB (auto-created on first run)
@@ -83,38 +86,19 @@ janashakthi/
 
 ## ⚡ Quick Start
 
-### 1. Clone the repository
-
-```bash
-git clone https://github.com/nuwanihitibandara211-wq/Janashakthi-Agent.git
-cd Janashakthi-Agent
-```
-
-### 2. Install dependencies
+### 1. Install dependencies
 
 ```bash
 pip install -r requirements.txt
 ```
 
-### 3. Set environment variables
-
-Create a `.env` file or export directly:
-
-```bash
-export GROQ_API_KEY=your_groq_api_key_here
-export EMAIL_ADDRESS=your_gmail_address
-export EMAIL_PASSWORD=your_gmail_app_password
-```
-
-> **Gmail**: Use an [App Password](https://support.google.com/accounts/answer/185833), not your account password.
-
-### 4. Run the server
+### 2. Run the server
 
 ```bash
 python run.py
 ```
 
-### 5. Access the portals
+### 3. Access the portals
 
 | Portal | URL |
 |---|---|
@@ -129,10 +113,8 @@ python run.py
 
 | Method | Endpoint | Description |
 |---|---|---|
-| POST | `/api/identify` | Identify customer by NIC number |
-| POST | `/api/send-otp` | Generate and dispatch OTP to registered email |
-| POST | `/api/verify-otp` | Validate OTP entered by customer |
-| POST | `/api/chat` | Send message to JanashakthiCare AI assistant |
+| POST | `/api/identify` | Identify customer by NIC and/or policy number |
+| POST | `/api/chat` | AI chat with customer (Gemini) |
 | POST | `/api/request/create` | Create a new service request |
 | POST | `/api/document/upload` | Upload and AI-verify a document |
 | POST | `/api/request/submit` | Submit request for processing |
@@ -141,17 +123,10 @@ python run.py
 
 | Method | Endpoint | Description |
 |---|---|---|
-| GET | `/api/underwriter/requests` | List requests by status |
+| GET | `/api/underwriter/requests?status=Under Review` | List requests by status |
 | GET | `/api/underwriter/request/<id>` | Full request + document details |
-| POST | `/api/underwriter/decide` | Approve or reject a request |
+| POST | `/api/underwriter/decide` | Approve or reject a request + update database |
 | GET | `/api/underwriter/stats` | Dashboard statistics |
-
-All endpoints return a consistent JSON envelope:
-
-```json
-{ "success": true, "data": { ... } }
-{ "success": false, "error": "Descriptive error message" }
-```
 
 ---
 
@@ -163,51 +138,6 @@ All endpoints return a consistent JSON envelope:
 | Age Alteration | Non-Financial | ✅ Auto-Approved | Request Letter + NIC / Birth Cert |
 | Change Payment Mode | Financial | 🕐 Under Review | Request Letter + Outstanding Payment Bill |
 | Increase of Benefits | Financial | 🕐 Under Review | Request Letter + PEP/DGF Form + Salary Slip / Bank Statement |
-
----
-
-## 🤖 AI Pipeline
-
-### 1. Identity Document OCR (NIC & Birth Certificate)
-
-```
-Step 1 → Document type detection       (LLaMA 4 Scout vision)
-Step 2 → Multilingual field extraction (LLaMA 4 Scout vision → structured JSON)
-Step 3 → NIC mathematical decoding     (custom Python logic)
-Step 4 → Field reconciliation          (merged identity JSON)
-```
-
-**Birth Certificate three-pass pipeline:**
-- **Pre-processing** — Pillow upscale (min 1400px), contrast ×1.9, sharpness ×2.2
-- **Pass 1** — Full form field extraction (Sinhala + English)
-- **Pass 2** — Sinhala handwriting deep-read (vowel diacritic focus)
-- **Pass 3** — Merge and reconciliation with confidence notes
-
-### 2. Request Letter Classification
-
-```
-Step 1 → Full text OCR               (LLaMA 4 Scout vision)
-Step 2 → Keyword scoring             (50–80 keywords per service type)
-Step 3 → Threshold filtering         (≥10% match ratio retained)
-Step 4 → LLM verification            (LLaMA 3.3 70B → verified service type + confidence)
-```
-
-### 3. RAG-Augmented Conversational Assistant
-
-- **Vector store**: ChromaDB with 15 indexed Janashakthi knowledge base entries
-- **Embedding model**: `all-MiniLM-L6-v2` (Sentence Transformers)
-- **Retrieval**: Top-3 cosine similarity matches injected into system prompt
-- **LLM**: LLaMA 3.3 70B via Groq API
-- **Latency**: < 2 seconds average response time
-
----
-
-## 🪪 NIC Decoding Reference
-
-| Format | Structure | Gender Rule |
-|---|---|---|
-| Old format (9 digits + V/X) | Digits 1–2: birth year (1900+n); Digits 3–5: day of year | Day > 500 → Female (subtract 500) |
-| New format (12 digits) | Digits 1–4: full birth year; Digits 5–7: day of year | Day > 500 → Female (subtract 500) |
 
 ---
 
@@ -230,76 +160,3 @@ Step 4 → LLM verification            (LLaMA 3.3 70B → verified service type 
 
 ---
 
-## 📦 Dependencies
-
-| Package | Version | Purpose |
-|---|---|---|
-| flask | 3.0.0 | Web framework and REST API |
-| flask-cors | 4.0.0 | Cross-Origin Resource Sharing |
-| groq | latest | Groq API client (LLaMA vision + language models) |
-| pillow | latest | Image pre-processing for OCR pipeline |
-| pytesseract | latest | Supplemental English OCR fallback |
-| chromadb | latest | Vector database for RAG knowledge base |
-| sentence-transformers | latest | Sentence embedding (all-MiniLM-L6-v2) |
-| werkzeug | 3.0.1 | WSGI utilities, file handling |
-| python | 3.10+ | Runtime environment |
-
-Install all dependencies:
-
-```bash
-pip install -r requirements.txt
-```
-
----
-
-## 📊 Test Results Summary
-
-| Document Type | Accuracy |
-|---|---|
-| NIC — printed | 100% |
-| Bank Statement — typed | 100% |
-| Marriage Certificate — printed | 100% |
-| Request Letter — typed | 90% |
-| PEP/DGF Form — typed | 88% |
-| Birth Certificate — handwritten | 60% |
-| Request Letter — handwritten | 40% |
-| **Overall** | **83%** |
-
----
-
-## ⚠️ Known Limitations
-
-- Handwritten Sinhala OCR accuracy is variable for cursive/informal scripts
-- Underwriter portal has no authentication (URL-accessible) — not production-ready
-- OTP delivered via email only; no SMS fallback
-- OTP store is in-memory and does not persist across server restarts
-- SQLite not suitable for high-concurrency production deployments
-- AI pipeline depends entirely on Groq API availability
-
----
-
-## 🚀 Future Directions
-
-- SMS-based OTP and biometric authentication
-- Fine-tuned Sinhala handwriting OCR model
-- PostgreSQL migration for production scalability
-- JWT-based role-based access control (customer / branch officer / underwriter)
-- Redis-based distributed OTP caching
-- Expanded service coverage (reinstatement, claims, beneficiary changes)
-- Native mobile app (iOS & Android)
-- Analytics and reporting dashboard
-
----
-
-## 👩‍💻 Authors
-
-Developed by students of the **Department of Statistics and Computer Science**, Faculty of Science, University of Peradeniya, as part of **DSC3263 — Independent Study in Data Science** (2026).
-
----
-
-## 📄 License
-
-This project was developed for academic purposes in collaboration with **Janashakthi Insurance PLC**. No real customer data was used. All test records are entirely fictitious.
-
-### 1. Install dependencies
-pip install -r requirements.txt
