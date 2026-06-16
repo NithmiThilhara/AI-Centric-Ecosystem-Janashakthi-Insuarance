@@ -498,7 +498,7 @@ if __name__ == "__main__":
     # ── Validate API key ──────────────────────────────────────────
     if GEMINI_API_KEY == "YOUR_NEW_API_KEY_HERE":
         print("ERROR: Set GEMINI_API_KEY environment variable or edit GEMINI_API_KEY in this script.")
-        print("  export GEMINI_API_KEY='AIzaSyCoM6Mo1FGu4MaH8MQfYa6vM4W8rLhyv2U'")
+        print("  export GEMINI_API_KEY='your API key'")
         sys.exit(1)
 
     # ── Image path (command-line arg or default) ──────────────────
